@@ -5,50 +5,135 @@ import ru.netology.product.repository.ProductRepository;
 
 import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 
-public class ProductRepositoryTest {
-    private ProductRepository repository = new ProductRepository();
-    Product book = new Book(1, "Book16", 1500, "Александр Пушков");
-    Product smartphone = new Smartphone(2, "Phone36", 50_000, "Nokia");
-    Product product = new Smartphone(3, "Product27", 80_000, "Samsung");
+class ProductRepositoryTest {
+
+    private final ProductRepository repo = new ProductRepository();
+    private final Product book1 = new Book(1, "В Лесу", 120, "Олег Губкин");
+    private final Product book2 = new Book(2, "Рассвет", 150, "Виктор Шар");
+    private final Product book3 = new Book(3, "Закат", 180, "Анна Даль");
+    private final Product smartphone1 = new Smartphone(4, "Galaxy S21", 8500, "Samsung");
+    private final Product smartphone2 = new Smartphone(5, "Redmi 5+", 3500, "Xiaomi");
+
     @Test
-    public void shouldSaveOneItem() {
-        repository.save(book);
-        Product[] expected = {book};
-        Product[] actual = repository.findAll();
+    public void saveOneBook() {
+        repo.save(book1);
+
+        Product[] expected = new Product[]{book1};
+        Product[] actual = repo.findAll();
         assertArrayEquals(expected, actual);
     }
 
     @Test
-    public void shouldFindAll() {
-        repository.save(book);
-        repository.save(smartphone);
-        repository.save(product);
-        Product[] expected = { book, smartphone, product};
-        Product[] actual = repository.findAll();
-        assertArrayEquals(expected, actual);
+    public void saveOneSmartphone() {
+        repo.save(smartphone1);
 
-    }
-    @Test
-    public void shouldRemoveById() {
-        repository.save(book);
-        repository.save(smartphone);
-        repository.save(product);
-        repository.removeById(2);
-        Product[] expected = { book, product };
-        Product[] actual = repository.findAll();
+        Product[] expected = new Product[]{smartphone1};
+        Product[] actual = repo.findAll();
         assertArrayEquals(expected, actual);
     }
 
     @Test
-    public void shouldRemoveAllById() {
-        repository.save(book);
-        repository.save(smartphone);
-        repository.save(product);
-        repository.removeById(1);
-        repository.removeById(2);
-        repository.removeById(3);
-        Product[] expected = {};
-        Product[] actual = repository.findAll();
+    public void saveBookAndSmartphone() {
+        repo.save(book1);
+        repo.save(smartphone1);
+
+        Product[] expected = new Product[]{book1, smartphone1};
+        Product[] actual = repo.findAll();
+        assertArrayEquals(expected, actual);
+    }
+
+    @Test
+    public void findZero() {
+        repo.findAll();
+
+        Product[] expected = new Product[]{};
+        Product[] actual = repo.findAll();
+        assertArrayEquals(expected, actual);
+    }
+
+    @Test
+    public void findOneBook() {
+        repo.save(book1);
+
+        repo.findAll();
+
+        Product[] expected = new Product[]{book1};
+        Product[] actual = repo.findAll();
+        assertArrayEquals(expected, actual);
+    }
+
+    @Test
+    public void findOneSmartphone() {
+        repo.save(smartphone1);
+
+        repo.findAll();
+
+        Product[] expected = new Product[]{smartphone1};
+        Product[] actual = repo.findAll();
+        assertArrayEquals(expected, actual);
+    }
+
+    @Test
+    public void findBookAndSmartphone() {
+        repo.save(book1);
+        repo.save(smartphone1);
+
+        repo.findAll();
+
+        Product[] expected = new Product[]{book1, smartphone1};
+        Product[] actual = repo.findAll();
+        assertArrayEquals(expected, actual);
+    }
+
+    @Test
+    public void removeBookById() {
+        repo.save(book1);
+
+        repo.removeById(1);
+
+        Product[] expected = new Product[]{};
+        Product[] actual = repo.findAll();
+        assertArrayEquals(expected, actual);
+    }
+
+    @Test
+    public void removeSmartphoneById() {
+        repo.save(smartphone1);
+
+        repo.removeById(4);
+
+        Product[] expected = new Product[]{};
+        Product[] actual = repo.findAll();
+        assertArrayEquals(expected, actual);
+    }
+
+    @Test
+    public void removeBookAndSmartphoneById() {
+        repo.save(book1);
+        repo.save(book2);
+        repo.save(smartphone1);
+        repo.save(smartphone2);
+
+        repo.removeById(2);
+        repo.removeById(4);
+
+        Product[] expected = new Product[]{book1, smartphone2};
+        Product[] actual = repo.findAll();
+        assertArrayEquals(expected, actual);
+    }
+
+    @Test
+    public void removeNonId() {
+        repo.save(book1);
+        repo.save(book2);
+        repo.save(book3);
+        repo.save(smartphone1);
+        repo.save(smartphone2);
+
+        repo.removeById(6);
+
+        Product[] expected = {book1, book2, book3, smartphone1, smartphone2};
+        Product[] actual = repo.findAll();
         assertArrayEquals(expected, actual);
     }
 }

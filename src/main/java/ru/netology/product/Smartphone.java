@@ -1,6 +1,5 @@
 package ru.netology.product;
 
-
 public class Smartphone extends Product{
     private String manufacturer;
     public Smartphone() {
