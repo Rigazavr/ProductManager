@@ -12,7 +12,7 @@ class ProductRepositoryTest {
     private final Product book2 = new Book(2, "Рассвет", 150, "Виктор Шар");
     private final Product book3 = new Book(3, "Закат", 180, "Анна Даль");
     private final Product smartphone1 = new Smartphone(4, "Galaxy S21", 8500, "Samsung");
-    private final Product smartphone2 = new Smartphone(5, "Redmi 5+", 3500, "Xiaomi");
+    private final Product smartphone2 = new Smartphone(5, "Redmi 8T", 3500, "Xiaomi");
 
     @Test
     public void saveOneBook() {
